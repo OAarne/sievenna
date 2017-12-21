@@ -15,4 +15,4 @@ Resources
 =========
 
 [Data Compression Explained – Matt
-Mahoney](http://mattmahoney.net/dc/dce.html)\
+Mahoney](http://mattmahoney.net/dc/dce.html)
