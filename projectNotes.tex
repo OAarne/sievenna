@@ -1,0 +1,192 @@
+\documentclass[11pt,a4paper,oneside,notitlepage,final]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{mathtools}
+\usepackage{amsfonts,amsthm,amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage{booktabs}
+%\usepackage{todo}
+
+\usepackage[
+textwidth=15.2cm, 
+textheight=24.3cm,
+hmarginratio=1:1,
+vmarginratio=1:1]{geometry}
+
+\setlength{\parskip}{12pt}
+\setlength{\parindent}{0pt}
+
+\setlength{\mathsurround}{0.2pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\abs}[1]{ \left| #1 \right| }
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\bigabs}[1]{\bigl\lvert#1\bigr\rvert}
+\newcommand{\biggabs}[1]{\biggl\lvert#1\biggr\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\ointerv}[1]{\mathopen({#1}\mathclose)}
+%\newcommand{\ocinterv}[1]{\mathopen({#1}\mathclose]}
+\newcommand{\ocinterv}[1]{\left( #1 \right] }
+%\newcommand{\cointerv}[1]{\mathopen[{#1}\mathclose)}
+\newcommand{\cointerv}[1]{\left[ #1 \right)}
+\newcommand{\cinterv}[1]{ \left[ #1 \right] }
+%\newcommand{\cinterv}[1]{\mathopen[{#1}\mathclose]}
+\newcommand{\thalf}{\tfrac{1}{2}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\tint}{\textstyle\int}
+\newcommand{\rpm}{\sbox0{$1$}\sbox2{$\scriptstyle\pm$}
+	\raise\dimexpr(\ht0-\ht2)/2\relax\box2 }
+
+\DeclareMathOperator*{\evalop}{\Big/}
+\newcommand{\eval}[2]{\evalop_{\!\!\!\!\!\!#1}^{\,\,\,\,\,\,#2}}
+
+\newcommand{\Tas}{\mathrm{Tas}}
+\newcommand{\Exp}{\mathrm{Exp}}
+\newcommand{\Bin}{\mathrm{Bin}}
+%\newcommand{\Poi}{\mathrm{P}}
+%\newcommand{\Nor}{\mathsf{N}}
+
+% Stochastic independence symbol
+\makeatletter
+\def\indept{\mathchoice
+	{\setbox0\hbox{$\displaystyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\textstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\scriptstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\scriptscriptstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}}
+\makeatother
+
+\DeclareMathOperator{\Var}{var}
+\DeclareMathOperator{\Cov}{cov}
+\DeclareMathOperator{\Cor}{cor}
+
+\newcommand{\assim}{\underset{\mathit{as}}{\sim}}
+
+\renewcommand{\vec}[1]{{\mathbf{#1}}}
+
+\newcounter{harjnro}
+
+\newenvironment{harjlist}
+{\begin{list}{\kor{\arabic{harjnro}.}}
+		{\usecounter{harjnro}
+			\setlength{\labelwidth}{0em}
+			\setlength{\labelsep}{0.4em}
+			\setlength{\leftmargin}{0pt}
+			\setlength{\parsep}{5pt}
+			\setlength{\itemindent}{0.4em}
+			\setlength{\topsep}{0.5\parskip}
+			\setlength{\itemsep}{0.75\parskip}
+		}
+	}
+	{\end{list}}
+
+\newenvironment{ratkaisu}{\kor{Ratkaisu:} \\}{}
+\newenvironment{arvostelu}{\textit{\kor{Arvosteluohje: }}}{}
+
+\newenvironment{kohdat}
+{\begin{list}{\alph{enumi})}
+		{\usecounter{enumi}
+			\setlength{\labelwidth}{0em}
+			\setlength{\labelsep}{0.5em}
+			\setlength{\leftmargin}{0em}
+			\setlength{\parsep}{3pt}
+			\setlength{\itemindent}{0.5em}
+			\setlength{\topsep}{0pt}
+			\setlength{\itemsep}{0pt}
+		}
+	}
+	{\end{list}}
+
+\newcommand{\kor}[1]{\textbf{#1}}
+
+\newcommand{\kaanna}{\vfill\hfill KÄÄNNÄ!\pagebreak}
+
+\newcommand{\stcomp}[1]{{#1}^\complement}
+
+\newcommand{\ps}{\mathcal{P}}
+
+\pagestyle{empty}
+
+\makeatletter
+\DeclareRobustCommand{\em}{%
+  \@nomath\em \if b\expandafter\@car\f@series\@nil
+  \normalfont \else \bfseries \fi}
+\makeatother
+
+
+\begin{document}
+	
+	\setlength{\abovedisplayskip}{8.0pt plus3.0pt minus4.0pt}
+	\setlength{\abovedisplayshortskip}{0.0pt plus3.0pt}
+	\setlength{\belowdisplayskip}{8.0pt plus3.0pt minus4.0pt}
+	\setlength{\belowdisplayshortskip}{7.0pt plus3.0pt minus3.0pt}
+	
+	\title{TiRaLabra logbook}
+	\author{Onni Aarne}
+	\maketitle
+	
+	\section{Project Concept}
+	
+	%\href{https://en.wikipedia.org/wiki/Lempel%E2%80%93Ziv%E2%80%93Welch}{LZW compression algorithm on wikipedia}
+	A CLI tool for compressing and decompressing various types of files, written in Java.
+	My first step will be to implement something fairly straightforward, like a basic LZW implementation. After that I will add other algorithms, refine the existing ones and perhaps try to create specialized algorithms for different types of files, such as images and audio. The tool will most likely stick to lossless compression.
+	
+	\section{General Course Information}
+	
+	Course organizer: Saska Dönges AKA saskeli, saska@cs.helsinki.fi.\\
+	Course IRC: \#tiralabra2017 @IRCnet.
+	
+	\subsection{Deadlines}
+	
+	\begin{tabular}{c l l l}
+		\toprule
+		\# & Weekday & Date & Notes \\
+		\midrule
+		1. & Sat & 23.12 & \\
+		2. & Fri & 29.12 & \\
+		3. & Thu & 4.1 & \\
+		4. & Tue & 9.1 & First peer review\\
+		5. & Sun & 14.1 & Second peer review \\
+		5. & Sun & 21.1 & FINAL VERSION \\
+		\bottomrule
+	\end{tabular}\\
+	\vspace{0em}\\
+	NOTE: All deadlines at 23:59.
+	
+	\section{Resources}
+	\href{http://mattmahoney.net/dc/dce.html}{Data Compression Explained -- Matt Mahoney}\\
+	
+	\section{Captains Log: First Week}
+	Todo:\\
+	\begin{itemize}
+		\item
+		Ask Saska about your project concept.
+		
+		\item
+		Write the first bits of ``official'' documentation.
+		
+		\item
+		Collect resources into a bookmark folder and download as much of it as you can.
+		
+		%\item Initialize github repository, allow issues.
+		
+		\item
+		Register on labtool.
+		
+		\item
+		Write the first weekly report.
+	\end{itemize}
+	
+	
+	
+
+\end{document}
