@@ -11,6 +11,11 @@ other algorithms, refine the existing ones and perhaps try to create
 specialized algorithms for different types of files, such as images and
 audio. The tool will most likely stick to lossless compression.
 
+Project Status
+==============
+![travis](https://travis-ci.org/OAarne/sievenna.svg?branch=master)
+[![Code Coverage](https://img.shields.io/codecov/c/gh/OAarne/sievenna/master.svg)](https://codecov.io/gh/OAarne/sievenna/)
+
 Resources
 =========
 
