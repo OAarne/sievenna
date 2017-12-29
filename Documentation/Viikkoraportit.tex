@@ -1,0 +1,165 @@
+\documentclass[11pt,a4paper,oneside,notitlepage,final]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{mathtools}
+\usepackage{amsfonts,amsthm,amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{color}
+
+\usepackage[
+textwidth=15.2cm, 
+textheight=24.3cm,
+hmarginratio=1:1,
+vmarginratio=1:1]{geometry}
+
+\setlength{\parskip}{12pt}
+\setlength{\parindent}{0pt}
+
+\setlength{\mathsurround}{0.2pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\abs}[1]{ \left| #1 \right| }
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\bigabs}[1]{\bigl\lvert#1\bigr\rvert}
+\newcommand{\biggabs}[1]{\biggl\lvert#1\biggr\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\ointerv}[1]{\mathopen({#1}\mathclose)}
+%\newcommand{\ocinterv}[1]{\mathopen({#1}\mathclose]}
+\newcommand{\ocinterv}[1]{\left( #1 \right] }
+%\newcommand{\cointerv}[1]{\mathopen[{#1}\mathclose)}
+\newcommand{\cointerv}[1]{\left[ #1 \right)}
+\newcommand{\cinterv}[1]{ \left[ #1 \right] }
+%\newcommand{\cinterv}[1]{\mathopen[{#1}\mathclose]}
+\newcommand{\thalf}{\tfrac{1}{2}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\tint}{\textstyle\int}
+\newcommand{\rpm}{\sbox0{$1$}\sbox2{$\scriptstyle\pm$}
+	\raise\dimexpr(\ht0-\ht2)/2\relax\box2 }
+
+\DeclareMathOperator*{\evalop}{\Big/}
+\newcommand{\eval}[2]{\evalop_{\!\!\!\!\!\!#1}^{\,\,\,\,\,\,#2}}
+
+\newcommand{\Tas}{\mathrm{Tas}}
+\newcommand{\Exp}{\mathrm{Exp}}
+\newcommand{\Bin}{\mathrm{Bin}}
+%\newcommand{\Poi}{\mathrm{P}}
+%\newcommand{\Nor}{\mathsf{N}}
+
+% Stochastic independence symbol
+\makeatletter
+\def\indept{\mathchoice
+	{\setbox0\hbox{$\displaystyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\textstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\scriptstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\scriptscriptstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}}
+\makeatother
+
+\DeclareMathOperator{\Var}{var}
+\DeclareMathOperator{\Cov}{cov}
+\DeclareMathOperator{\Cor}{cor}
+
+\newcommand{\assim}{\underset{\mathit{as}}{\sim}}
+
+\renewcommand{\vec}[1]{{\mathbf{#1}}}
+
+\newcounter{harjnro}
+
+\newenvironment{harjlist}
+{\begin{list}{\kor{\arabic{harjnro}.}}
+		{\usecounter{harjnro}
+			\setlength{\labelwidth}{0em}
+			\setlength{\labelsep}{0.4em}
+			\setlength{\leftmargin}{0pt}
+			\setlength{\parsep}{5pt}
+			\setlength{\itemindent}{0.4em}
+			\setlength{\topsep}{0.5\parskip}
+			\setlength{\itemsep}{0.75\parskip}
+		}
+	}
+	{\end{list}}
+
+\newenvironment{ratkaisu}{\kor{Ratkaisu:} \\}{}
+\newenvironment{arvostelu}{\textit{\kor{Arvosteluohje: }}}{}
+
+\newenvironment{kohdat}
+{\begin{list}{\alph{enumi})}
+		{\usecounter{enumi}
+			\setlength{\labelwidth}{0em}
+			\setlength{\labelsep}{0.5em}
+			\setlength{\leftmargin}{0em}
+			\setlength{\parsep}{3pt}
+			\setlength{\itemindent}{0.5em}
+			\setlength{\topsep}{0pt}
+			\setlength{\itemsep}{0pt}
+		}
+	}
+	{\end{list}}
+
+\newcommand{\kor}[1]{\textbf{#1}}
+
+\newcommand{\kaanna}{\vfill\hfill KÄÄNNÄ!\pagebreak}
+
+\newcommand{\stcomp}[1]{{#1}^\complement}
+
+\newcommand{\ps}{\mathcal{P}}
+
+\pagestyle{empty}
+
+\makeatletter
+\DeclareRobustCommand{\em}{%
+  \@nomath\em \if b\expandafter\@car\f@series\@nil
+  \normalfont \else \bfseries \fi}
+\makeatother
+
+
+\begin{document}
+	
+	\setlength{\abovedisplayskip}{8.0pt plus3.0pt minus4.0pt}
+	\setlength{\abovedisplayshortskip}{0.0pt plus3.0pt}
+	\setlength{\belowdisplayskip}{8.0pt plus3.0pt minus4.0pt}
+	\setlength{\belowdisplayshortskip}{7.0pt plus3.0pt minus3.0pt}
+	
+	\title{sievenna Development Log}
+	\author{Onni Aarne}
+	\maketitle
+	
+	\section{First Week}
+	\emph{Thursday 21.12} \\
+	Locked down the topic and named the project.\\
+	Created this document and the GitHub repository.\\
+	Wrote a basic draft of the specification document.\\
+	Wrote this log.\\
+	Registered on labtool.
+	
+	Next week I'll start to actually write the program.
+	
+	This week I spent maybe 5h on the project.
+	
+	\section{Second Week}
+	I did project setup sporadically throughout the Holidays.
+	
+	As I traveled on 27.12 I started researching the actual algorithms.\\
+	Learned some stuff about information theory and the theory of compression.\\
+	Kinda learned how Huffman coding works.\\
+	Need to look deeper into all of that stuff.\\
+	Decided to implement a simple byte-level Huffman coding algorithm as a first step.
+	
+	Over the next two days I worked on implementing said functionality.\\
+	Ran into difficulties with bit-level I/O.
+
+	I've been terrible about organizing my time so it's a bit tough to say how many hours I've spent on this. Traveling and the Holidays certainly haven't helped with that.\\
+	I've spent at least 10 hours on this project this week.
+	
+	With a few hours before the deadline I'll try to learn how to unit test and implement some tests for incomplete functionality. Yay.\\
+	Wrote tests for my HuffNode class. Next I need to figure out how to test my I/O class.\\
+	Next week I'll implement decoding the Huffman-coded files.
+\end{document}
