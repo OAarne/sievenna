@@ -59,7 +59,7 @@ public class sievenna {
             nodes.add(new HuffNode(i, count[i], null, null));
         }
 
-        while (nodes.size() == 1) {
+        while (nodes.size() != 1) {
             HuffNode left = nodes.poll();
             HuffNode right = nodes.poll();
             nodes.add(left.join(right));
