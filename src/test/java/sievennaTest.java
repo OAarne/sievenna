@@ -4,11 +4,6 @@ import static org.junit.Assert.*;
 
 public class sievennaTest {
     @Test
-    public static void main(String[] args) {
-        assertEquals("hello", "hello");
-    }
-
-    @Test
     public void buildTrie() {
         int[] count = new int[256];
         for (int i = 0; i < count.length; i++) {

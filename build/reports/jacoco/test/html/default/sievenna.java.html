@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>sievenna.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">sievenna</a> &gt; <a href="index.source.html" class="el_package">default</a> &gt; <span class="el_source">sievenna.java</span></div><h1>sievenna.java</h1><pre class="source lang-java linenums">import java.io.*;
+import java.util.PriorityQueue;
+
+/**
+ * The tool takes an input file path and an output file path as its arguments.
+ * A Huffman coded version of the input file will be written to the output file path.
+ */
+
+<span class="nc" id="L9">public class sievenna {</span>
+
+    public static void main(String[] args) {
+        // TODO: remove this when unneeded.
+        // this code exists for testing purposes only
+<span class="nc" id="L14">        Integer testNum = 200;</span>
+<span class="nc" id="L15">        byte testByte = testNum.byteValue();</span>
+<span class="nc" id="L16">        System.out.println(&quot;Value: &quot; + testNum);</span>
+<span class="nc" id="L17">        System.out.println(&quot;Default: &quot; + testByte);</span>
+<span class="nc" id="L18">        System.out.println(&quot;toUnsigned: &quot; + Byte.toUnsignedInt(testByte));</span>
+<span class="nc" id="L19">        System.out.println(Integer.toBinaryString(testNum));</span>
+<span class="nc" id="L20">        System.out.println(&quot;three in binary is &quot; + Integer.toBinaryString(3));</span>
+
+        try {
+<span class="nc" id="L23">            FileInputStream inputStream = new FileInputStream(args[0]); // &quot;src/main/resources/nightshot_iso_100.ppm&quot;</span>
+<span class="nc" id="L24">            byte[] file = new byte[inputStream.available()];</span>
+<span class="nc" id="L25">            inputStream.read(file);</span>
+<span class="nc" id="L26">            System.out.println(&quot;File was read successfully&quot;);</span>
+
+<span class="nc" id="L28">            int[] count = new int[256];</span>
+<span class="nc bnc" id="L29" title="All 2 branches missed.">            for (int i = 0; i &lt; file.length; i++) {</span>
+<span class="nc" id="L30">                count[Byte.toUnsignedInt(file[i])]++;</span>
+            }
+
+<span class="nc" id="L33">            HuffNode trieRoot = buildTrie(count);</span>
+
+<span class="nc" id="L35">            String[] huffmanTable = new String[256];</span>
+<span class="nc" id="L36">            buildHuffTable(trieRoot, &quot;&quot;, huffmanTable);</span>
+
+<span class="nc" id="L38">            BinaryFileOutput out = new BinaryFileOutput(new FileOutputStream(args[1]));</span>
+
+
+<span class="nc" id="L41">            writeHuffmanTrie(trieRoot, out);</span>
+
+            // writeBit the encoded data into the output file.
+<span class="nc bnc" id="L44" title="All 2 branches missed.">            for (int i = 0; i &lt; file.length; i++) {</span>
+<span class="nc" id="L45">                out.writeBinaryString(huffmanTable[Byte.toUnsignedInt(file[i])]);</span>
+            }
+
+<span class="nc" id="L48">        } catch (IOException e) {</span>
+<span class="nc" id="L49">            e.printStackTrace();</span>
+<span class="nc" id="L50">        }</span>
+<span class="nc" id="L51">    }</span>
+
+    /**
+     * Returns the root node of a full trie for allocating the Huffman codes.
+     * @param count
+     * @return
+     */
+
+    public static HuffNode buildTrie(int[] count) {
+
+        // TODO: replace this PriorityQueue BS with my own implementation
+
+<span class="fc" id="L63">        PriorityQueue&lt;HuffNode&gt; nodes = new PriorityQueue&lt;&gt;();</span>
+
+<span class="fc bfc" id="L65" title="All 2 branches covered.">        for (int i = 0; i &lt; count.length; i++) {</span>
+<span class="fc" id="L66">            nodes.add(new HuffNode(i, count[i], null, null));</span>
+        }
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        while (nodes.size() != 1) {</span>
+<span class="fc" id="L70">            HuffNode left = nodes.poll();</span>
+<span class="fc" id="L71">            HuffNode right = nodes.poll();</span>
+<span class="fc" id="L72">            nodes.add(left.join(right));</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">        return nodes.poll();</span>
+    }
+
+    /**
+     * Returns a String array containing the huffman codes of each byte,
+     * allocated according to the trie given as parameter.
+     * @param node
+     * @param prefix
+     * @param codes
+     * @return huffmanTable
+     */
+
+    public static void buildHuffTable(HuffNode node, String prefix, String[] codes) {
+<span class="fc bfc" id="L87" title="All 2 branches covered.">        if (node.getKey() != -1) {</span>
+<span class="fc" id="L88">            codes[node.getKey()] = prefix;</span>
+        } else {
+<span class="fc" id="L90">            buildHuffTable(node.getLeft(), prefix + '1', codes);</span>
+<span class="fc" id="L91">            buildHuffTable(node.getRight(), prefix + '0', codes);</span>
+        }
+<span class="fc" id="L93">    }</span>
+
+    public static void writeHuffmanTrie(HuffNode node, BinaryFileOutput out) {
+<span class="nc bnc" id="L96" title="All 2 branches missed.">        if (node.getKey() == -1) {</span>
+<span class="nc" id="L97">            out.writeBit(false);</span>
+<span class="nc" id="L98">            writeHuffmanTrie(node.getLeft(), out);</span>
+<span class="nc" id="L99">            writeHuffmanTrie(node.getRight(), out);</span>
+        } else {
+<span class="nc" id="L101">            out.writeBit(true);</span>
+<span class="nc" id="L102">            out.write8bitInt(node.getKey());</span>
+        }
+<span class="nc" id="L104">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.1.201405082137</span></div></body></html>

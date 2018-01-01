@@ -1,10 +1,10 @@
 import java.io.BufferedOutputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
- * The class provides ways to write information to a binary file bit by bit.
+ * The class provides ways to writeBit information to a binary file bit by bit.
  */
 
 public class BinaryFileOutput {
@@ -22,7 +22,7 @@ public class BinaryFileOutput {
      * @param bit
      */
 
-    public void write(boolean bit) {
+    public void writeBit(boolean bit) {
         byteBuffer <<= 1;
         if (bit) {
             byteBuffer++;
@@ -47,22 +47,26 @@ public class BinaryFileOutput {
      * @param code
      */
 
-    public void write(String code) {
+    public void writeBinaryString(String code) {
         for (int i = 0; i < code.length(); i++) {
-            write(code.charAt(i) == '1');
+            writeBit(code.charAt(i) == '1');
         }
     }
 
-    public void writeByte(String inputCode) {
-        if (remainingBits != 8) throw new IllegalStateException(
-                "Writing a new byte with bits remaining is not currently supported");
-        try {
-            this.write(inputCode);
-            outputStream.write(byteBuffer);
-            byteBuffer = 0;
-            remainingBits = 8;
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void write8bitInt(int key) {
+        // construct a string describing the key as an unsigned 8-bit integer.
+        String binaryString = Integer.toBinaryString(key);
+        assert binaryString.length() <= 8;
+        int missingZeroes = 8-binaryString.length();
+        if (missingZeroes > 0) {
+            char[] zeroes = new char[missingZeroes];
+            Arrays.fill(zeroes, '0');
+            binaryString = zeroes + binaryString;
+        }
+        assert binaryString.length() == 8;
+
+        for (int i = 0; i < binaryString.length(); i++) {
+            writeBit(binaryString.charAt(i) == '0');
         }
     }
 }

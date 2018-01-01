@@ -9,6 +9,16 @@ import java.util.PriorityQueue;
 public class sievenna {
 
     public static void main(String[] args) {
+        // TODO: remove this when unneeded.
+        // this code exists for testing purposes only
+        Integer testNum = 200;
+        byte testByte = testNum.byteValue();
+        System.out.println("Value: " + testNum);
+        System.out.println("Default: " + testByte);
+        System.out.println("toUnsigned: " + Byte.toUnsignedInt(testByte));
+        System.out.println(Integer.toBinaryString(testNum));
+        System.out.println("three in binary is " + Integer.toBinaryString(3));
+
         try {
             FileInputStream inputStream = new FileInputStream(args[0]); // "src/main/resources/nightshot_iso_100.ppm"
             byte[] file = new byte[inputStream.available()];
@@ -27,15 +37,12 @@ public class sievenna {
 
             BinaryFileOutput out = new BinaryFileOutput(new FileOutputStream(args[1]));
 
-            // write the huffman codes into the first 256 bytes of the file
-            // TODO: this could probably be optimised.
-            for (int i = 0; i < huffmanTable.length; i++) {
-                out.writeByte(huffmanTable[i]);
-            }
 
-            // write the encoded data into the output file.
+            writeHuffmanTrie(trieRoot, out);
+
+            // writeBit the encoded data into the output file.
             for (int i = 0; i < file.length; i++) {
-                out.write(huffmanTable[Byte.toUnsignedInt(file[i])]);
+                out.writeBinaryString(huffmanTable[Byte.toUnsignedInt(file[i])]);
             }
 
         } catch (IOException e) {
@@ -82,6 +89,17 @@ public class sievenna {
         } else {
             buildHuffTable(node.getLeft(), prefix + '1', codes);
             buildHuffTable(node.getRight(), prefix + '0', codes);
+        }
+    }
+
+    public static void writeHuffmanTrie(HuffNode node, BinaryFileOutput out) {
+        if (node.getKey() == -1) {
+            out.writeBit(false);
+            writeHuffmanTrie(node.getLeft(), out);
+            writeHuffmanTrie(node.getRight(), out);
+        } else {
+            out.writeBit(true);
+            out.write8bitInt(node.getKey());
         }
     }
 }
