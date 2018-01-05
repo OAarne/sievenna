@@ -3,6 +3,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class sievennaTest {
+
     @Test
     public void buildTrie() {
         int[] count = new int[256];
@@ -15,7 +16,6 @@ public class sievennaTest {
         assertTrue(trieRoot.getLeft() != null);
         assertTrue(trieRoot.getRight() != null);
         assertEquals(-1, trieRoot.getKey());
-
 
     }
 

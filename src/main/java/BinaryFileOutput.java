@@ -46,7 +46,7 @@ public class BinaryFileOutput {
     }
 
     /**
-     * Writes a
+     * Writes a String of ones and zeroes to the output.
      * @param code
      */
 
@@ -55,6 +55,11 @@ public class BinaryFileOutput {
             writeBit(code.charAt(i) == '1');
         }
     }
+
+    /**
+     * Writes the unsigned 8-bit representation of the given integer to the output.
+     * @param key
+     */
 
     public void write8bitInt(int key) {
         // construct a string describing the key as an unsigned 8-bit integer.
@@ -77,7 +82,10 @@ public class BinaryFileOutput {
         outputStream.flush();
     }
 
-    public String report() {
-        return Integer.toString(totalBits);
+    /**
+     * @return Number of bits written so far by this BinaryFileOutput
+     */
+    public int report() {
+        return totalBits;
     }
 }

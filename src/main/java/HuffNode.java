@@ -26,7 +26,7 @@ public class HuffNode implements Comparable<HuffNode> {
     @Override
     public int compareTo(HuffNode other) {
         // this is reversed so I could use the standard PriorityQueue implementation.
-        return other.getFreq() - this.freq;
+        return this.freq - other.getFreq();
     }
 
     public int getKey() {
