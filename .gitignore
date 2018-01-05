@@ -1,4 +1,7 @@
+build
+*workspace*
 *output.ppm
+*output.sie
 out
 *.class
 *.aux

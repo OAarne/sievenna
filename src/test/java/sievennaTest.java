@@ -10,7 +10,7 @@ public class sievennaTest {
             count[i] = i;
         }
 
-        HuffNode trieRoot = sievenna.buildTrie(count);
+        HuffNode trieRoot = HuffmanCoder.buildTrie(count);
 
         assertTrue(trieRoot.getLeft() != null);
         assertTrue(trieRoot.getRight() != null);
@@ -27,12 +27,12 @@ public class sievennaTest {
             count[i] = i;
         }
 
-        HuffNode trieRoot = sievenna.buildTrie(count);
+        HuffNode trieRoot = HuffmanCoder.buildTrie(count);
 
         // initialize the String array which will hold the codes
         String[] codes = new String[256];
 
-        sievenna.buildHuffTable(trieRoot, "", codes);
+        HuffmanCoder.buildHuffTable(trieRoot, "", codes);
 
         for (int i = 0; i < codes.length; i++) {
             assertNotEquals("", codes[i]);

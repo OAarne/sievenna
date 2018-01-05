@@ -20,6 +20,7 @@ repositories {
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    compile 'commons-cli:commons-cli:1.4'
 }
 
 check.dependsOn jacocoTestReport

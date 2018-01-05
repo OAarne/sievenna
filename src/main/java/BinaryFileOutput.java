@@ -9,11 +9,12 @@ import java.util.Arrays;
 
 public class BinaryFileOutput {
     private BufferedOutputStream outputStream;
-    private int byteBuffer, remainingBits;
+    private int byteBuffer, remainingBits, totalBits;
 
     public BinaryFileOutput(FileOutputStream fileOutputStream) {
         this.byteBuffer = 0;
         this.remainingBits = 8;
+        this.totalBits = 0;
         this.outputStream = new BufferedOutputStream(fileOutputStream);
     }
 
@@ -26,6 +27,7 @@ public class BinaryFileOutput {
         byteBuffer <<= 1;
         if (bit) {
             byteBuffer++;
+//            byteBuffer |= 0x000000FF;
         }
         remainingBits--;
 
@@ -40,6 +42,7 @@ public class BinaryFileOutput {
             byteBuffer = 0;
             remainingBits = 8;
         }
+        totalBits++;
     }
 
     /**
@@ -68,5 +71,13 @@ public class BinaryFileOutput {
         for (int i = 0; i < binaryString.length(); i++) {
             writeBit(binaryString.charAt(i) == '0');
         }
+    }
+
+    public void flush() throws IOException {
+        outputStream.flush();
+    }
+
+    public String report() {
+        return Integer.toString(totalBits);
     }
 }

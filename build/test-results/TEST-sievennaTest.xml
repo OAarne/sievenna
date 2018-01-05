@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="sievennaTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2018-01-01T16:14:32" hostname="onnin-fuxxilaite" time="0.02">
-  <properties/>
-  <testcase name="buildTrie" classname="sievennaTest" time="0.016"/>
-  <testcase name="buildHuffTable" classname="sievennaTest" time="0.004"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
