@@ -17,8 +17,8 @@ public class HuffNodeTest {
 
     @Test
     public void compareTo() {
-        HuffNode higherPriorityNode = new HuffNode(1, 1, null, null);
-        HuffNode lowerPriorityNode = new HuffNode(2, 4, null, null);
+        HuffNode lowerPriorityNode = new HuffNode(1, 1, null, null);
+        HuffNode higherPriorityNode = new HuffNode(2, 4, null, null);
         assertTrue(higherPriorityNode.compareTo(lowerPriorityNode) > 0);
     }
 
