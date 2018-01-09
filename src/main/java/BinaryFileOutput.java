@@ -52,34 +52,56 @@ public class BinaryFileOutput {
 
     public void writeBinaryString(String code) {
         for (int i = 0; i < code.length(); i++) {
+            if (code.charAt(i) != '0' && code.charAt(i) != '1') throw new IllegalArgumentException();
             writeBit(code.charAt(i) == '1');
         }
     }
 
     /**
      * Writes the unsigned 8-bit representation of the given integer to the output.
-     * @param key
+     * @param x
      */
 
-    public void write8bitInt(int key) {
+    public void write8bitInt(int x) {
+        if (x < 0 || x > 255) throw new IllegalArgumentException();
         // construct a string describing the key as an unsigned 8-bit integer.
-        String binaryString = Integer.toBinaryString(key);
+        String binaryString = Integer.toBinaryString(x);
         assert binaryString.length() <= 8;
         int missingZeroes = 8-binaryString.length();
         if (missingZeroes > 0) {
             char[] zeroes = new char[missingZeroes];
             Arrays.fill(zeroes, '0');
-            binaryString = zeroes + binaryString;
+            binaryString = new String(zeroes) + binaryString;
         }
         assert binaryString.length() == 8;
 
-        for (int i = 0; i < binaryString.length(); i++) {
-            writeBit(binaryString.charAt(i) == '0');
-        }
+        binaryString.chars().forEach(y -> writeBit(y == '1'));
     }
 
-    public void flush() throws IOException {
-        outputStream.flush();
+    /**
+     * Writes a positive signed 32-bit integer.
+     */
+    public void write32bitInt(int x) {
+        String binaryString = Integer.toBinaryString(x);
+        assert binaryString.length() <= 32;
+        int missingZeroes = 32-binaryString.length();
+        if (missingZeroes > 0) {
+            char[] zeroes = new char[missingZeroes];
+            Arrays.fill(zeroes, '0');
+            binaryString = new String(zeroes) + binaryString;
+        }
+        assert binaryString.length() == 32;
+
+        binaryString.chars().forEach(y -> writeBit(y == '1'));
+
+    }
+
+    public void close() throws IOException {
+        while (remainingBits != 8) {
+            writeBit(false);
+        }
+        write32bitInt(0);
+        outputStream.close();
     }
 
     /**

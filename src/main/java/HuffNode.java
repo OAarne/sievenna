@@ -23,6 +23,16 @@ public class HuffNode implements Comparable<HuffNode> {
         return new HuffNode(-1, this.freq + right.getFreq(), this, right);
     }
 
+    /**
+     * Prints the keys of this trie.
+     */
+
+    public void print() {
+        if (this.left != null) left.print();
+        if (key != -1) System.out.println(key);
+        if (this.right != null) right.print();
+    }
+
     @Override
     public int compareTo(HuffNode other) {
         // this is reversed so I could use the standard PriorityQueue implementation.

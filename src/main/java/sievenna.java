@@ -32,13 +32,14 @@ public class sievenna {
             e.printStackTrace();
         }
 
+        HuffmanCoder coder = new HuffmanCoder();
+
         if (line.hasOption('c') && line.hasOption('d')) {
             System.out.println("Pick one.");
         } else if (line.hasOption('c')) {
-            HuffmanCoder coder = new HuffmanCoder();
             coder.encode(line.getArgList().get(0), line.getArgList().get(1));
         } else if (line.hasOption('d')) {
-            System.out.println("This functionality is not currently supported.");
+            coder.decode(line.getArgList().get(0), line.getArgList().get(1));
         } else {
             System.out.println("You must give either the option " +
                     "-c to compress or -d to decompress");
