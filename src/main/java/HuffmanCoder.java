@@ -9,7 +9,7 @@ public class HuffmanCoder {
      * @param output
      */
 
-    public void encode(String input, String output) {
+    public static void encode(String input, String output) {
 
         // read file ("src/main/resources/nightshot_iso_100.ppm")
         FileInputStream inputStream;
@@ -55,15 +55,9 @@ public class HuffmanCoder {
         out.write32bitInt(file.length);
         assert out.report() - before == 32;
 
-        // testing purposes only
-        for (String code : huffmanTable) {
-            System.out.println("Huffman codes "+code);
-        }
-
         // Write the encoded data into the output file
         for (int i = 0; i < file.length; i++) {
             int key = Byte.toUnsignedInt(file[i]);
-            if (i< 10) System.out.println("writing " + key + " code " + huffmanTable[key]);
             assert (key >= 0 && key <= 255);
             out.writeBinaryString(huffmanTable[key]);
         }
@@ -88,7 +82,7 @@ public class HuffmanCoder {
      * @param outputPath
      */
 
-    public void decode(String inputPath, String outputPath) {
+    public static void decode(String inputPath, String outputPath) {
         // read input file
         BinaryFileInput binput = null;
         int available = -1;
@@ -106,7 +100,6 @@ public class HuffmanCoder {
         HuffNode trieRoot = null;
 
         try {
-            System.out.println("Bits read at the beginning: " + binput.report());
             trieRoot = readTrie(binput);
             System.out.println("Trie was successfully read");
         } catch (IOException e) {
@@ -131,6 +124,7 @@ public class HuffmanCoder {
 
         try {
             BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outputPath));
+            int count = 0;
             for (int i = 0; i < byteCount; i++) {
                 HuffNode node = trieRoot;
                 trieDecodeLoop:
@@ -141,16 +135,17 @@ public class HuffmanCoder {
                         node = node.getLeft();
                     }
                     if (node.getKey() != -1) {
+                        assert node.getKey() >= 0 && node.getKey() <= 255;
                         outputStream.write(node.getKey());
-                        if (i < 20) System.out.println("writing byte " + node.getKey());
-//                        if (available - binput.report()/8 < 20) System.out.println(node.getKey());
+                        count++;
                         break trieDecodeLoop;
                     }
                 }
-//                if (available - binput.report()/8 < 20) System.out.println(i + " bytes decoded.");
                 if (available < binput.report()/8) throw new IllegalStateException();
-//                if (i % 1000000 == 0) System.out.println(i + " bytest decoded");
             }
+            assert count == byteCount;
+            outputStream.flush();
+            outputStream.close();
             System.out.println("File was successfully decoded and written.");
 
         } catch (IOException e) {

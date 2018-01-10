@@ -27,7 +27,6 @@ public class BinaryFileOutput {
         byteBuffer <<= 1;
         if (bit) {
             byteBuffer++;
-//            byteBuffer |= 0x000000FF;
         }
         remainingBits--;
 
