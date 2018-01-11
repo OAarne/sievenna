@@ -27,6 +27,11 @@ public class HuffNode implements Comparable<HuffNode> {
      * Prints the keys of this trie.
      */
 
+    public int size() {
+        if (this.left == null) return 1;
+        else return left.size() + right.size() + 1;
+    }
+
     public void print() {
         if (this.left != null) left.print();
         if (key != -1) System.out.println(key);

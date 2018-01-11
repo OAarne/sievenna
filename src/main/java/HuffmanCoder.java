@@ -32,6 +32,7 @@ public class HuffmanCoder {
         }
 
         HuffNode trieRoot = buildTrie(count);
+        System.out.println("Constructed huffman trie with total " + trieRoot.size() + " nodes.");
 
         // build code table
         String[] huffmanTable = new String[256];
@@ -124,7 +125,6 @@ public class HuffmanCoder {
 
         try {
             BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outputPath));
-            int count = 0;
             for (int i = 0; i < byteCount; i++) {
                 HuffNode node = trieRoot;
                 trieDecodeLoop:
@@ -135,15 +135,12 @@ public class HuffmanCoder {
                         node = node.getLeft();
                     }
                     if (node.getKey() != -1) {
-                        assert node.getKey() >= 0 && node.getKey() <= 255;
                         outputStream.write(node.getKey());
-                        count++;
                         break trieDecodeLoop;
                     }
                 }
                 if (available < binput.report()/8) throw new IllegalStateException();
             }
-            assert count == byteCount;
             outputStream.flush();
             outputStream.close();
             System.out.println("File was successfully decoded and written.");
@@ -162,20 +159,30 @@ public class HuffmanCoder {
 
     public static HuffNode buildTrie(int[] count) {
 
-        // TODO: replace this PriorityQueue BS with my own implementation
-
-        PriorityQueue<HuffNode> nodes = new PriorityQueue<>();
+        MinHeap<HuffNode> minHeap = new MinHeap();
 
         for (int i = 0; i < count.length; i++) {
-            nodes.add(new HuffNode(i, count[i], null, null));
+            minHeap.add(new HuffNode(i, count[i], null, null));
         }
 
-        while (nodes.size() > 1) {
-            HuffNode left = nodes.poll();
-            HuffNode right = nodes.poll();
-            nodes.add(left.join(right));
+        while (minHeap.size() > 1) {
+            HuffNode left = minHeap.delMin();
+            HuffNode right = minHeap.delMin();
+            minHeap.add(left.join(right));
         }
-        return nodes.poll();
+
+        return minHeap.min();
+
+        // TODO: replace this PriorityQueue BS with my own implementation
+
+//        PriorityQueue<HuffNode> nodes = new PriorityQueue<>();
+//
+//        for (int i = 0; i < count.length; i++) {
+//            nodes.add(new HuffNode(i, count[i], null, null));
+//        }
+//
+//
+//        return nodes.poll();
     }
 
     /**
