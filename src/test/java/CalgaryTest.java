@@ -1,4 +1,5 @@
 import org.junit.Assert;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.io.File;
@@ -6,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 public class CalgaryTest {
 
+    @Ignore
     @Test
     public void calgaryTest() throws IOException {
 
