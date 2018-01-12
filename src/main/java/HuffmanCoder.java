@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.PriorityQueue;
 
 public class HuffmanCoder {
 
@@ -24,7 +23,7 @@ public class HuffmanCoder {
             e.printStackTrace();
         }
 
-        System.out.println(file.length + " byte file was read in " + (System.nanoTime() - startTime)/1000 + " ms");
+        System.out.println(file.length + " byte file was read in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
         // count byte frequencies
         int[] count = new int[256];
@@ -32,10 +31,10 @@ public class HuffmanCoder {
             count[Byte.toUnsignedInt(file[i])]++;
         }
 
-        System.out.println("Model built in " + (System.nanoTime() - startTime)/1000 + " ms");
+        System.out.println("Model built in " + (System.nanoTime() - startTime)/1000000 + " ms");
 
         HuffNode trieRoot = buildTrie(count);
-        System.out.println("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + (System.nanoTime() - startTime)/1000 + " ms");
+        System.out.println("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
         // build code table
         String[] huffmanTable = new String[256];
@@ -52,7 +51,7 @@ public class HuffmanCoder {
 
         // write the huffman trie
         writeHuffmanTrie(trieRoot, out);
-        System.out.println("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000 + " ms");
+        System.out.println("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
         // write 32-bit two's comp int to indicate number of coded bytes to follow?
         int before = out.report();
@@ -65,7 +64,7 @@ public class HuffmanCoder {
             assert (key >= 0 && key <= 255);
             out.writeBinaryString(huffmanTable[key]);
         }
-        System.out.println("File body written in " + (System.nanoTime() - startTime)/1000 + " ms");
+        System.out.println("File body written in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
         try {
             out.close();
@@ -105,7 +104,7 @@ public class HuffmanCoder {
         HuffNode trieRoot = null;
 
         try {
-            trieRoot = readTrie(binput);
+            trieRoot = readHuffmanTrie(binput);
             System.out.println("Trie was successfully read");
         } catch (IOException e) {
             System.out.println("Trie could not be constructed.");
@@ -221,20 +220,20 @@ public class HuffmanCoder {
     }
 
     /**
-     * Reads an encoded Huffman trie from input
+     * Reads a preorder encoded Huffman trie from input
      * @param binput
      * @return Root node of Huffman trie
      */
 
-    public static HuffNode readTrie(BinaryFileInput binput) throws IOException {
+    public static HuffNode readHuffmanTrie(BinaryFileInput binput) throws IOException {
         if (binput.readBit()) {
 //            System.out.println("Bits read so far: " + binput.report());
             int key = binput.read8bitInt();
 //            System.out.println("Key read:" + key);
             return new HuffNode(key, 0, null, null);
         } else {
-            HuffNode left = readTrie(binput);
-            HuffNode right = readTrie(binput);
+            HuffNode left = readHuffmanTrie(binput);
+            HuffNode right = readHuffmanTrie(binput);
             return left.join(right);
         }
     }

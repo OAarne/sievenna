@@ -3,7 +3,6 @@ import org.junit.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import static org.junit.Assert.*;
@@ -13,18 +12,16 @@ public class HuffmanCoderTest {
     @Test
     public void encodeDecodeImageTest() throws IOException {
         long before = System.nanoTime();
-        HuffmanCoder.encode("src/main/resources/nightshot_iso_100.ppm", "src/main/resources/output.sie");
+        HuffmanCoder.encode("src/test/resources/nightshot_iso_100.ppm", "src/test/resources/output.sie");
         long after = System.nanoTime();
         System.out.println("Compressed 22.128 MB file in " + (after - before)/1000000000.0 + " s");
         before = System.nanoTime();
-        HuffmanCoder.decode("src/main/resources/output.sie", "src/main/resources/output.ppm");
+        HuffmanCoder.decode("src/test/resources/output.sie", "src/test/resources/output.ppm");
         after = System.nanoTime();
         System.out.println("Decompressed file in " + (after - before)/1000000000.0 + " ms");
 
-        FileInputStream expected = new FileInputStream(new File("src/main/resources/nightshot_iso_100.ppm"));
-        FileInputStream actual = new FileInputStream(new File("src/main/resources/output.ppm"));
-
-//        Assert.assertEquals(expected.available(), actual.available());
+        FileInputStream expected = new FileInputStream(new File("src/test/resources/nightshot_iso_100.ppm"));
+        FileInputStream actual = new FileInputStream(new File("src/test/resources/output.ppm"));
 
         int expectedByte = expected.read();
         int actualByte = actual.read();
