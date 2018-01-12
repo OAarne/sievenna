@@ -12,6 +12,7 @@ public class HuffmanCoder {
     public static void encode(String input, String output) {
 
         // read file ("src/main/resources/nightshot_iso_100.ppm")
+        long startTime = System.nanoTime();
         FileInputStream inputStream;
         byte[] file = null;
         try {
@@ -23,7 +24,7 @@ public class HuffmanCoder {
             e.printStackTrace();
         }
 
-        System.out.println("Input file was " + file.length + " bytes.");
+        System.out.println(file.length + " byte file was read in " + (System.nanoTime() - startTime)/1000 + " ms");
 
         // count byte frequencies
         int[] count = new int[256];
@@ -31,8 +32,10 @@ public class HuffmanCoder {
             count[Byte.toUnsignedInt(file[i])]++;
         }
 
+        System.out.println("Model built in " + (System.nanoTime() - startTime)/1000 + " ms");
+
         HuffNode trieRoot = buildTrie(count);
-        System.out.println("Constructed huffman trie with total " + trieRoot.size() + " nodes.");
+        System.out.println("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + (System.nanoTime() - startTime)/1000 + " ms");
 
         // build code table
         String[] huffmanTable = new String[256];
@@ -49,7 +52,7 @@ public class HuffmanCoder {
 
         // write the huffman trie
         writeHuffmanTrie(trieRoot, out);
-        System.out.println("The huffman trie was written in " + out.report() + " bits");
+        System.out.println("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000 + " ms");
 
         // write 32-bit two's comp int to indicate number of coded bytes to follow?
         int before = out.report();
@@ -62,6 +65,7 @@ public class HuffmanCoder {
             assert (key >= 0 && key <= 255);
             out.writeBinaryString(huffmanTable[key]);
         }
+        System.out.println("File body written in " + (System.nanoTime() - startTime)/1000 + " ms");
 
         try {
             out.close();
@@ -143,6 +147,7 @@ public class HuffmanCoder {
             }
             outputStream.flush();
             outputStream.close();
+            binput.close();
             System.out.println("File was successfully decoded and written.");
 
         } catch (IOException e) {
@@ -172,17 +177,6 @@ public class HuffmanCoder {
         }
 
         return minHeap.min();
-
-        // TODO: replace this PriorityQueue BS with my own implementation
-
-//        PriorityQueue<HuffNode> nodes = new PriorityQueue<>();
-//
-//        for (int i = 0; i < count.length; i++) {
-//            nodes.add(new HuffNode(i, count[i], null, null));
-//        }
-//
-//
-//        return nodes.poll();
     }
 
     /**

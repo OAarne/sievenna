@@ -1,10 +1,11 @@
+import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
 public class BinaryFileInput {
-    private FileInputStream inputStream;
+    private BufferedInputStream inputStream;
     int index, total;
     String byteBuffer;
 
@@ -15,7 +16,7 @@ public class BinaryFileInput {
      */
 
     public BinaryFileInput(FileInputStream inputStream) throws IOException {
-        this.inputStream = inputStream;
+        this.inputStream = new BufferedInputStream(inputStream);
         this.index = 0;
         this.byteBuffer = toBinaryString(inputStream.read());
         this.total = 0;
@@ -102,5 +103,9 @@ public class BinaryFileInput {
 
     public int available() throws IOException {
         return inputStream.available();
+    }
+
+    public void close() throws IOException {
+        inputStream.close();
     }
 }

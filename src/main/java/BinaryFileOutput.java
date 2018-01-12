@@ -11,6 +11,7 @@ public class BinaryFileOutput {
     private BufferedOutputStream outputStream;
     private int byteBuffer, remainingBits, totalBits;
 
+
     public BinaryFileOutput(FileOutputStream fileOutputStream) {
         this.byteBuffer = 0;
         this.remainingBits = 8;
