@@ -11,9 +11,6 @@ public class BinaryFileOutputTest {
 
     @Test
     public void writeBit() throws IOException {
-        File testFile = new File("out/test/testOutput.ppm");
-        testFile.createNewFile();
-        BinaryFileOutput out = new BinaryFileOutput(new FileOutputStream(testFile));
     }
 
     @Test

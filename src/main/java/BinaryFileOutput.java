@@ -64,24 +64,10 @@ public class BinaryFileOutput {
 
     public void write8bitInt(int x) {
         if (x < 0 || x > 255) throw new IllegalArgumentException();
-//        // construct a string describing the key as an unsigned 8-bit integer.
-//        String binaryString = Integer.toBinaryString(x);
-//        assert binaryString.length() <= 8;
-//        int missingZeroes = 8-binaryString.length();
-//        if (missingZeroes > 0) {
-//            char[] zeroes = new char[missingZeroes];
-//            Arrays.fill(zeroes, '0');
-//            binaryString = new String(zeroes) + binaryString;
-//        }
-//        assert binaryString.length() == 8;
 
         for (int i = 7; i >= 0; i--) {
             writeBit((x & (1 << i)) != 0);
-//            writeBit((x & 1) != 0);
-//            x <<= 1;
         }
-
-//        binaryString.chars().forEach(y -> writeBit(y == '1'));
     }
 
     /**
