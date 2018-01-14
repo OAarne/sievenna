@@ -7,7 +7,7 @@ import org.apache.commons.cli.*;
  * which are passed as anonymous arguments in that order.
  */
 
-public class sievenna {
+public class Main {
 
     public static void main(String[] args) {
         // TODO: remove this when unneeded.

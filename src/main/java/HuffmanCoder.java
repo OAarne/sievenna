@@ -77,6 +77,7 @@ public class HuffmanCoder {
         double reduction = (out.report() / 8.0) / file.length;
         reduction = 1.0 - reduction;
         System.out.println("File size was reduced by " + reduction + " percent");
+        System.out.println("Compression ratio was " + file.length/(out.report() /8.0)) ;
 
     }
 
@@ -110,9 +111,6 @@ public class HuffmanCoder {
             System.out.println("Trie could not be constructed.");
             e.printStackTrace();
         }
-
-//        String[] codes = new String[256];
-//        buildCodes(trieRoot, "", codes);
 
         int byteCount = 0;
 
@@ -156,7 +154,7 @@ public class HuffmanCoder {
     }
 
     /**
-     * Returns the root node of a full trie for allocating the Huffman codes.
+     * Returns the root node of a full trie for allocating the Huffman codes based on array of byte frequencies.
      * @param count
      * @return
      */
@@ -235,15 +233,6 @@ public class HuffmanCoder {
             HuffNode left = readHuffmanTrie(binput);
             HuffNode right = readHuffmanTrie(binput);
             return left.join(right);
-        }
-    }
-
-    public static void buildCodes(HuffNode node, String prefix, String[] codes) {
-        if (node.getKey() == -1) {
-            buildCodes(node.getLeft(), prefix + '0', codes);
-            buildCodes(node.getRight(), prefix + '1', codes);
-        } else {
-            codes[node.getKey()] = prefix;
         }
     }
 }

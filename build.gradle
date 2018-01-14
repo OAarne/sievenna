@@ -1,11 +1,14 @@
 version '1.0-SNAPSHOT'
 
+apply plugin: 'application'
 apply plugin: 'java'
 apply plugin: 'jacoco'
 apply plugin: 'idea'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
+
+mainClassName = "src.main.java.Main"
 
 jacoco {
 	toolVersion = "0.7.9"
