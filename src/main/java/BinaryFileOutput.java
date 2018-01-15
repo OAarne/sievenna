@@ -24,7 +24,7 @@ public class BinaryFileOutput {
      * @param bit
      */
 
-    public void writeBit(boolean bit) {
+    public void writeBit(boolean bit) throws IOException {
         byteBuffer <<= 1;
         if (bit) {
             byteBuffer++;
@@ -34,11 +34,7 @@ public class BinaryFileOutput {
         //
         if (remainingBits == 0) {
             assert byteBuffer >= 0 && byteBuffer <= 255;
-            try {
-                outputStream.write(byteBuffer);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            outputStream.write(byteBuffer);
             byteBuffer = 0;
             remainingBits = 8;
         }
@@ -50,7 +46,7 @@ public class BinaryFileOutput {
      * @param code
      */
 
-    public void writeBinaryString(String code) {
+    public void writeBinaryString(String code) throws IOException {
         for (int i = 0; i < code.length(); i++) {
             if (code.charAt(i) != '0' && code.charAt(i) != '1') throw new IllegalArgumentException();
             writeBit(code.charAt(i) == '1');
@@ -62,7 +58,7 @@ public class BinaryFileOutput {
      * @param x
      */
 
-    public void write8bitInt(int x) {
+    public void write8bitInt(int x) throws IOException {
         if (x < 0 || x > 255) throw new IllegalArgumentException();
 
         for (int i = 7; i >= 0; i--) {
@@ -85,7 +81,13 @@ public class BinaryFileOutput {
         }
         assert binaryString.length() == 32;
 
-        binaryString.chars().forEach(y -> writeBit(y == '1'));
+        binaryString.chars().forEach(y -> {
+            try {
+                writeBit(y == '1');
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 

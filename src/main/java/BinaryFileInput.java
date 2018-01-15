@@ -6,8 +6,8 @@ import java.util.Arrays;
 
 public class BinaryFileInput {
     private BufferedInputStream inputStream;
-    int index, total;
-    String byteBuffer;
+    int bitsRemaining, total;
+    int byteBuffer;
 
     /**
      * Initializes an instance using a FileInputStream.
@@ -17,8 +17,8 @@ public class BinaryFileInput {
 
     public BinaryFileInput(FileInputStream inputStream) throws IOException {
         this.inputStream = new BufferedInputStream(inputStream);
-        this.index = 0;
-        this.byteBuffer = toBinaryString(inputStream.read());
+        this.bitsRemaining = 7;
+        this.byteBuffer = inputStream.read();
         this.total = 0;
     }
 
@@ -29,11 +29,12 @@ public class BinaryFileInput {
      */
 
     public boolean readBit() throws IOException {
-        boolean bit = ('1' == byteBuffer.charAt(index));
-        index++;
-        if (index == 8) {
-            byteBuffer = toBinaryString(inputStream.read());
-            index = 0;
+        int mask = (1 << bitsRemaining);
+        boolean bit = ((byteBuffer & mask) != 0);
+        bitsRemaining--;
+        if (bitsRemaining < 0) {
+            byteBuffer = inputStream.read();
+            bitsRemaining = 7;
         }
         total++;
         return bit;

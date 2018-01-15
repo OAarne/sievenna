@@ -49,24 +49,25 @@ public class HuffmanCoder {
             e.printStackTrace();
         }
 
-        // write the huffman trie
-        writeHuffmanTrie(trieRoot, out);
-        System.out.println("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
-
-        // write 32-bit two's comp int to indicate number of coded bytes to follow?
-        int before = out.report();
-        out.write32bitInt(file.length);
-        assert out.report() - before == 32;
-
-        // Write the encoded data into the output file
-        for (int i = 0; i < file.length; i++) {
-            int key = Byte.toUnsignedInt(file[i]);
-            assert (key >= 0 && key <= 255);
-            out.writeBinaryString(huffmanTable[key]);
-        }
-        System.out.println("File body written in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
-
         try {
+            // write the huffman trie
+            writeHuffmanTrie(trieRoot, out);
+            System.out.println("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+
+            // write 32-bit two's comp int to indicate number of coded bytes to follow?
+            int before = out.report();
+            out.write32bitInt(file.length);
+            assert out.report() - before == 32;
+
+            // Write the encoded data into the output file
+
+            for (int i = 0; i < file.length; i++) {
+                int key = Byte.toUnsignedInt(file[i]);
+                assert (key >= 0 && key <= 255);
+                out.writeBinaryString(huffmanTable[key]);
+            }
+            System.out.println("File body written in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
@@ -206,7 +207,7 @@ public class HuffmanCoder {
      * @param out
      */
 
-    public static void writeHuffmanTrie(HuffNode node, BinaryFileOutput out) {
+    public static void writeHuffmanTrie(HuffNode node, BinaryFileOutput out) throws IOException {
         if (node.getKey() == -1) {
             out.writeBit(false);
             writeHuffmanTrie(node.getLeft(), out);
