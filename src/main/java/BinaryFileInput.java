@@ -73,26 +73,6 @@ public class BinaryFileInput {
         return x;
     }
 
-    /**
-     * @param x
-     * @return 8-bit unsigned representation of the given integer as a String
-     */
-
-    public String toBinaryString(int x) {
-        if (x == -1) System.out.println("The stream you were reading is out of data at "+ report()/8 + " Bytes");
-        if (x < 0 || x > 255) throw new IllegalArgumentException();
-        String binaryString = Integer.toBinaryString(x);
-        assert binaryString.length() <= 8;
-        int missingZeroes = 8-binaryString.length();
-        if (missingZeroes > 0) {
-            char[] zeroes = new char[missingZeroes];
-            Arrays.fill(zeroes, '0');
-            binaryString = new String(zeroes) + binaryString;
-        }
-        assert binaryString.length() == 8;
-
-        return binaryString;
-    }
 
     /**
      * @return total bits read so far

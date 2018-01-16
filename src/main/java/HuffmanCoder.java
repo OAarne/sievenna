@@ -1,7 +1,13 @@
 import java.io.*;
+import java.util.logging.Logger;
+
+/**
+ * This class houses the functinoality for encoding and decoding files.
+ */
 
 public class HuffmanCoder {
 
+    private final static Logger LOGGER = Logger.getLogger((HuffmanCoder.class.getName()));
     /**
      * Writes the file in the first path to second path in a huffman coded form
      * @param input
@@ -19,11 +25,11 @@ public class HuffmanCoder {
             file = new byte[inputStream.available()];
             inputStream.read(file);
         } catch (IOException e) {
-            System.out.println("File could not be read.");
+            LOGGER.info("File could not be read.");
             e.printStackTrace();
         }
 
-        System.out.println(file.length + " byte file was read in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+        LOGGER.info(file.length + " byte file was read in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
         // count byte frequencies
         int[] count = new int[256];
@@ -31,10 +37,10 @@ public class HuffmanCoder {
             count[Byte.toUnsignedInt(file[i])]++;
         }
 
-        System.out.println("Model built in " + (System.nanoTime() - startTime)/1000000 + " ms");
+        LOGGER.info("Model built in " + (System.nanoTime() - startTime)/1000000 + " ms");
 
         HuffNode trieRoot = buildTrie(count);
-        System.out.println("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+        LOGGER.info("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
         // build code table
         String[] huffmanTable = new String[256];
@@ -45,40 +51,40 @@ public class HuffmanCoder {
         try {
             out = new BinaryFileOutput(new FileOutputStream(output));
         } catch (FileNotFoundException e) {
-            System.out.println("Could not write to output path.");
+            LOGGER.info("Could not write to output path.");
             e.printStackTrace();
         }
 
         try {
-            // write the huffman trie
             writeHuffmanTrie(trieRoot, out);
-            System.out.println("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+            LOGGER.info("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
-            // write 32-bit two's comp int to indicate number of coded bytes to follow?
+            // write 32-bit int to indicate number of coded bytes to follow
             int before = out.report();
             out.write32bitInt(file.length);
             assert out.report() - before == 32;
 
             // Write the encoded data into the output file
-
             for (int i = 0; i < file.length; i++) {
                 int key = Byte.toUnsignedInt(file[i]);
                 assert (key >= 0 && key <= 255);
                 out.writeBinaryString(huffmanTable[key]);
             }
-            System.out.println("File body written in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+
+
+            LOGGER.info("File body written in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
 
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        System.out.println("The final file was " + out.report() + " bits");
-        System.out.println("that is " + (out.report() / 8) + " bytes");
+        LOGGER.info("The final file was " + out.report() + " bits");
+        LOGGER.info("that is " + (out.report() / 8) + " bytes");
         double reduction = (out.report() / 8.0) / file.length;
         reduction = 1.0 - reduction;
-        System.out.println("File size was reduced by " + reduction + " percent");
-        System.out.println("Compression ratio was " + file.length/(out.report() /8.0)) ;
+        LOGGER.info("File size was reduced by " + reduction + " percent");
+        LOGGER.info("Compression ratio was " + file.length/(out.report() /8.0)) ;
 
     }
 
@@ -95,11 +101,11 @@ public class HuffmanCoder {
         try {
             FileInputStream inputStream = new FileInputStream(inputPath);
             binput = new BinaryFileInput(inputStream);
-            System.out.println("File " + inputPath + " was read successfully");
+            LOGGER.info("File " + inputPath + " was read successfully");
             available = binput.available();
-            System.out.println("File has " + available + " bytes.");
+            LOGGER.info("File has " + available + " bytes.");
         } catch (IOException e) {
-            System.out.println("File could not be read.");
+            LOGGER.info("File could not be read.");
             e.printStackTrace();
         }
 
@@ -107,9 +113,9 @@ public class HuffmanCoder {
 
         try {
             trieRoot = readHuffmanTrie(binput);
-            System.out.println("Trie was successfully read");
+            LOGGER.info("Trie was successfully read");
         } catch (IOException e) {
-            System.out.println("Trie could not be constructed.");
+            LOGGER.info("Trie could not be constructed.");
             e.printStackTrace();
         }
 
@@ -118,12 +124,12 @@ public class HuffmanCoder {
         try {
             byteCount = binput.read32bitInt();
         } catch (IOException e) {
-            System.out.println("Loller.");
+            LOGGER.info("Loller.");
             e.printStackTrace();
         }
 
         assert byteCount >= 0;
-        System.out.println("Beginning to decode " + byteCount + " bytes.");
+        LOGGER.info("Beginning to decode " + byteCount + " bytes.");
 
         try {
             BufferedOutputStream outputStream = new BufferedOutputStream(new FileOutputStream(outputPath));
@@ -146,10 +152,10 @@ public class HuffmanCoder {
             outputStream.flush();
             outputStream.close();
             binput.close();
-            System.out.println("File was successfully decoded and written.");
+            LOGGER.info("File was successfully decoded and written.");
 
         } catch (IOException e) {
-            System.out.println("File body could not be read.");
+            LOGGER.info("File body could not be read.");
             e.printStackTrace();
         }
     }
@@ -226,9 +232,7 @@ public class HuffmanCoder {
 
     public static HuffNode readHuffmanTrie(BinaryFileInput binput) throws IOException {
         if (binput.readBit()) {
-//            System.out.println("Bits read so far: " + binput.report());
             int key = binput.read8bitInt();
-//            System.out.println("Key read:" + key);
             return new HuffNode(key, 0, null, null);
         } else {
             HuffNode left = readHuffmanTrie(binput);

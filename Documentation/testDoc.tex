@@ -134,23 +134,27 @@ vmarginratio=1:1]{geometry}
 	\author{Onni Aarne}
 	\maketitle
 	
-	sievenna's Huffman coding has been tested on the Large Text Compression Benchmark \cite{mahoney2011large} as well as the Calgary corpus \cite{bell1989modeling}.
+	sievenna's Huffman coding has been tested on the Large Text Compression Benchmark \cite{mahoney2011large} as well as an uncompressed tarball of the standard Calgary corpus \cite{bell1989modeling}.
 	
-	Image compression benchmark from \href{http://imagecompression.info/test_images/}{imagecompression.info} \cite{imagecompressionbenchmark}.
+	Image compression benchmark used was an 8-bit RGB photograph called nightshot\_iso\_100 from \href{http://imagecompression.info/test_images/}{imagecompression.info} \cite{imagecompressionbenchmark}.
 	
 	An uncompressed 8-bit RGB image called nightshot\_iso\_100.ppm was compressed from 22.128 MB to 17.843427 MB giving a size reduction of 19.36\%.
 	
 	The first 100 MB of the Large Text Compression Benchmark compressed down to 63.862 MB, giving a size reduction of 36.14\%.
 	
-%	\begin{table}
-%		\begin{tabular}{llllll}
-%			\toprule
-%			File & Size & Compressed & Ratio & Compression Time & Decompression Time \\
-%			\midrule
-%			nightshot\_iso\_100 & 22.128 MB & 17.843427 MB & 1.240
-%			\bottomrule
-%		\end{tabular}
-%	\end{table}
+	\begin{table}
+		\begin{tabular}{llllll}
+			\toprule
+			File & Size & Compressed & Ratio & Comp. Time & Decomp. Time \\
+			\midrule
+			nightshot\_iso\_100.ppm & 22.128 MB & 17.843427 MB & 1.240 & 2.654 s & 1.989 s \\
+			enwik8 & 100 MB & 63.862 & 1.566 & 9.100 s & 6.900 s \\
+			enwik9 & 1000 MB & 648.370 MB & 1.542 & 68 s & 59 s \\
+			Calgary Corpus & 3.154 MB & 2.125 MB & 1.484 & 0.385 s & 0.321 s \\
+			\bottomrule
+		\end{tabular}
+		\caption{Performance statistics for Huffman coding. enwik8 and enwik9 are different sizes of the Large Text Compression Benchmark.}
+	\end{table}
 	
 	\bibliographystyle{plain}
 	\bibliography{bench.bib}

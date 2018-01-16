@@ -1,6 +1,7 @@
-//import org.apache.commons.cli.DefaultParser;
 
 import org.apache.commons.cli.*;
+
+import java.util.logging.*;
 
 /**
  * The tool uses flags to determine which action to take on the input and output files,
@@ -9,16 +10,9 @@ import org.apache.commons.cli.*;
 
 public class Main {
 
+    private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+
     public static void main(String[] args) {
-        // TODO: remove this when unneeded.
-        // this code exists for testing purposes only
-//        Integer testNum = 200;
-//        byte testByte = testNum.byteValue();
-//        System.out.println("Value: " + testNum);
-//        System.out.println("Default: " + testByte);
-//        System.out.println("toUnsigned: " + Byte.toUnsignedInt(testByte));
-//        System.out.println(Integer.toBinaryString(testNum));
-//        System.out.println("three in binary is " + Integer.toBinaryString(3));
 
         Options options = defineOptions();
 
@@ -30,6 +24,15 @@ public class Main {
             line = parser.parse(options, args);
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+
+        if (line.hasOption('l')) {
+            LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST);
+            Handler handler = new ConsoleHandler();
+            LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).addHandler(handler);
+
+        } else {
+            LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.OFF);
         }
 
         if (line.hasOption('c') && line.hasOption('d')) {
@@ -48,6 +51,7 @@ public class Main {
 
         Options options = new Options();
 
+        options.addOption("l", false, "Log progress to console");
         options.addOption("d", false, "Decompress the input file into the output path.");
         options.addOption("c", false, "Compress the input file into the output path.");
 
