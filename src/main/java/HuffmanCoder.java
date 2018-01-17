@@ -18,6 +18,7 @@ public class HuffmanCoder {
 
         // read file ("src/main/resources/nightshot_iso_100.ppm")
         long startTime = System.nanoTime();
+        MinimalistTimer timer = new MinimalistTimer();
         FileInputStream inputStream;
         byte[] file = null;
         try {
@@ -29,7 +30,7 @@ public class HuffmanCoder {
             e.printStackTrace();
         }
 
-        LOGGER.info(file.length + " byte file was read in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+        LOGGER.info(file.length + " byte file was read in " + timer.time()/1000000.0 + " ms");
 
         // count byte frequencies
         int[] count = new int[256];
@@ -37,10 +38,10 @@ public class HuffmanCoder {
             count[Byte.toUnsignedInt(file[i])]++;
         }
 
-        LOGGER.info("Model built in " + (System.nanoTime() - startTime)/1000000 + " ms");
+        LOGGER.info("Model built in " + timer.time()/1000000.0 + " ms");
 
         HuffNode trieRoot = buildTrie(count);
-        LOGGER.info("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+        LOGGER.info("Constructed huffman trie with total " + trieRoot.size() + " nodes in " + timer.time()/1000000.0 + " ms");
 
         // build code table
         String[] huffmanTable = new String[256];
@@ -57,7 +58,7 @@ public class HuffmanCoder {
 
         try {
             writeHuffmanTrie(trieRoot, out);
-            LOGGER.info("The huffman trie was written in " + out.report() + " bits in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+            LOGGER.info("The huffman trie was written in " + out.report() + " bits in " + timer.time()/1000000.0 + " ms");
 
             // write 32-bit int to indicate number of coded bytes to follow
             int before = out.report();
@@ -72,15 +73,15 @@ public class HuffmanCoder {
             }
 
 
-            LOGGER.info("File body written in " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+            LOGGER.info("File body written in " + timer.time()/1000000.0 + " ms");
 
             out.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        LOGGER.info("The final file was " + out.report() + " bits");
-        LOGGER.info("that is " + (out.report() / 8) + " bytes");
+        LOGGER.info("Compression took " + (System.nanoTime() - startTime)/1000000.0 + " ms");
+        LOGGER.info("The final file was " + (out.report() / 8) + " bytes");
         double reduction = (out.report() / 8.0) / file.length;
         reduction = 1.0 - reduction;
         LOGGER.info("File size was reduced by " + reduction + " percent");

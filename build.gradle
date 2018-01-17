@@ -8,7 +8,14 @@ apply plugin: 'idea'
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
 
-mainClassName = "src.main.java.Main"
+mainClassName = "Main"
+
+run {
+	if(project.hasProperty('args')){
+		args project.args.split('\\s+')
+	}
+	standardInput = System.in
+}
 
 jacoco {
 	toolVersion = "0.7.9"
