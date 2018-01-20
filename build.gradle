@@ -27,7 +27,7 @@ jacocoTestReport {
         html.enabled = true
     }
     afterEvaluate {
-    	classirectories = files(classDirectories.files.collect {
+    	classDirectories = files(classDirectories.files.collect {
     		fileTree(dir: it, exclude: 'src/main/java/Main.java')
     	})
     }

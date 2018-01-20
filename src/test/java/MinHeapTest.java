@@ -18,4 +18,13 @@ public class MinHeapTest {
         Assert.assertEquals(-1, (int) heap.delMin());
         Assert.assertEquals(2, heap.size());
     }
+
+    @Test
+    public void growthTest() {
+        MinHeap<Integer> heap = new MinHeap();
+        for (int i = 0; i < 300; i++) {
+            heap.add(i);
+        }
+        assertTrue(heap.size() == 300);
+    }
 }
