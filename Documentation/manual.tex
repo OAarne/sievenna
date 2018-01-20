@@ -9,6 +9,23 @@
 \usepackage{color}
 \usepackage[strings]{underscore}
 \usepackage{booktabs}
+\usepackage{listings}
+\lstset{frame=tb,
+	%language=Java,
+	%aboveskip=3mm,
+	%belowskip=3mm,
+	%showstringspaces=false,
+	%columns=flexible,
+	basicstyle={\small\ttfamily},
+	%numbers=none,
+	%numberstyle=\tiny\color{gray},
+	%keywordstyle=\color{blue},
+	%commentstyle=\color{dkgreen},
+	%stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=4
+}
 
 \usepackage[
 textwidth=15.2cm, 
@@ -130,28 +147,20 @@ vmarginratio=1:1]{geometry}
 	\setlength{\belowdisplayskip}{8.0pt plus3.0pt minus4.0pt}
 	\setlength{\belowdisplayshortskip}{7.0pt plus3.0pt minus3.0pt}
 	
-	\title{sievenna Testing}
+	\title{sievenna User's Manual}
 	\author{Onni Aarne}
 	\maketitle
 	
-	sievenna's Huffman coding has been tested on the Large Text Compression Benchmark \cite{mahoney2011large} as well as an uncompressed tarball of the standard Calgary corpus \cite{bell1989modeling}.
+	sievenna is a command-line application for compressing files. To use it, write
+	\begin{lstlisting}
+	$ sievenna -c <input> <output>
+	\end{lstlisting}
+	where \texttt{<input>} is the path of the file you wish to compress, and \texttt{<output>} is the path of the compressed file.
 	
-	Image compression benchmark used was an 8-bit RGB photograph called nightshot\_iso\_100 from \href{http://imagecompression.info/test_images/}{imagecompression.info} \cite{imagecompressionbenchmark}.
+	When compressing, if the output path is omitted, it defaults to \texttt{<input>.sie}.
 	
-	\begin{table}
-		\begin{tabular}{llllll}
-			\toprule
-			File & Size & Compressed & Ratio & Comp. Time & Decomp. Time \\
-			\midrule
-			nightshot\_iso\_100.ppm & 22.128 MB & 17.843427 MB & 1.240 & 2.654 s & 1.989 s \\
-			enwik8 & 100 MB & 63.862 & 1.566 & 9.100 s & 6.900 s \\
-			enwik9 & 1000 MB & 648.370 MB & 1.542 & 68 s & 59 s \\
-			Calgary Corpus & 3.154 MB & 2.125 MB & 1.484 & 0.385 s & 0.321 s \\
-			\bottomrule
-		\end{tabular}
-		\caption{Performance statistics for Huffman coding. enwik8 and enwik9 are different sizes of the Large Text Compression Benchmark.}
-	\end{table}
+	To decompress, replace the -c flag with -d.
 	
-	\bibliographystyle{plain}
-	\bibliography{bench.bib}
+	To log progress and statistics to console, use the flag -l.
+
 \end{document}

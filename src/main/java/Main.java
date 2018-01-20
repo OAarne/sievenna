@@ -11,6 +11,7 @@ import java.util.logging.*;
 public class Main {
 
     private static final Logger LOGGER = Logger.getLogger(Main.class.getName());
+    private static final String fileSuffix = "sie";
 
     public static void main(String[] args) {
 
@@ -30,16 +31,27 @@ public class Main {
             LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.FINEST);
             Handler handler = new ConsoleHandler();
             LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).addHandler(handler);
-
         } else {
-            LogManager.getLogManager().getLogger(Logger.GLOBAL_LOGGER_NAME).setLevel(Level.OFF);
+            LogManager.getLogManager().reset();
         }
 
+        if (line.getArgList().size() == 0) {
+            System.out.println("Give input and output paths after flags.");
+            return;
+        }
         if (line.hasOption('c') && line.hasOption('d')) {
             System.out.println("Pick one.");
         } else if (line.hasOption('c')) {
-            HuffmanCoder.encode(line.getArgList().get(0), line.getArgList().get(1));
+            if (line.getArgList().size() == 2) {
+                HuffmanCoder.encode(line.getArgList().get(0), line.getArgList().get(1));
+            } else {
+                HuffmanCoder.encode(line.getArgList().get(0), line.getArgList().get(0) + fileSuffix);
+            }
         } else if (line.hasOption('d')) {
+            if (line.getArgList().size() < 2) {
+                System.out.println("Please specify output path after input path.");
+                return;
+            }
             HuffmanCoder.decode(line.getArgList().get(0), line.getArgList().get(1));
         } else {
             System.out.println("You must give either the option " +

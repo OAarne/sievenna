@@ -22,20 +22,4 @@ public class HuffNodeTest {
         assertTrue(higherPriorityNode.compareTo(lowerPriorityNode) > 0);
     }
 
-    @Test
-    public void getKey() {
-    }
-
-    @Test
-    public void getLeft() {
-    }
-
-    @Test
-    public void getRight() {
-    }
-
-    @Test
-    public void getFreq() {
-    }
-
 }

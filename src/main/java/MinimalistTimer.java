@@ -5,6 +5,9 @@ public class MinimalistTimer {
         this.time = System.nanoTime();
     }
 
+    /**
+     * @return Nanoseconds since the timer was created or this method was last called.
+     */
     public long time() {
         long oldTime = time;
         long newTime = System.nanoTime();

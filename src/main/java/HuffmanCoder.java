@@ -96,7 +96,7 @@ public class HuffmanCoder {
      */
 
     public static void decode(String inputPath, String outputPath) {
-        // read input file
+        // initialize input
         BinaryFileInput binput = null;
         int available = -1;
         try {

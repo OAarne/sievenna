@@ -138,21 +138,20 @@ vmarginratio=1:1]{geometry}
 	
 	\section{Features}
 	
-	sievenna will support compressing and decompressing arbitrary files (and directories).
-	It will use at least the LZW algorithm to achieve this. It may 
-	It may or may not support settings to adjust compression speed and ratio.
+	sievenna will support compressing and decompressing arbitrary files.
+	It will use Huffman coding \cite{mahoney2012data, sedgewick2011algorithms} to achieve this.
 	sievenna will not solve climate change.
 	
 	\section{Use}
 	
-	sievenna will take the path to a file (or directory) as well as the path to an output file as its arguments. The compressed 
+	sievenna will take the path to a file as well as the path to an output file as its arguments. Flags will be used to decide whether to compress or decompress and to print logs.
 	
 	\section{Performance}
 	
-	sievenna will compress most files to 60\% or less of their original size.
+	sievenna will compress most files to 70\% or less of their original size.
 	
-	\section{Sources}
-	TBA
+	\bibliographystyle{plain}
+	\bibliography{bench.bib}
 	
 	
 	

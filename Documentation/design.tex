@@ -1,0 +1,214 @@
+\documentclass[11pt,a4paper,oneside,notitlepage,final]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{mathtools}
+\usepackage{amsfonts,amsthm,amssymb}
+\usepackage{bm}
+\usepackage{enumerate}
+\usepackage{hyperref}
+\usepackage{color}
+\usepackage[strings]{underscore}
+\usepackage{booktabs}
+\usepackage{listings}
+\lstset{frame=tb,
+	%language=Java,
+	%aboveskip=3mm,
+	%belowskip=3mm,
+	%showstringspaces=false,
+	%columns=flexible,
+	basicstyle={\small\ttfamily},
+	%numbers=none,
+	%numberstyle=\tiny\color{gray},
+	%keywordstyle=\color{blue},
+	%commentstyle=\color{dkgreen},
+	%stringstyle=\color{mauve},
+	breaklines=true,
+	breakatwhitespace=true,
+	tabsize=4
+}
+
+\usepackage[
+textwidth=15.2cm, 
+textheight=24.3cm,
+hmarginratio=1:1,
+vmarginratio=1:1]{geometry}
+
+\setlength{\parskip}{12pt}
+\setlength{\parindent}{0pt}
+
+\setlength{\mathsurround}{0.2pt}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\abs}[1]{ \left| #1 \right| }
+%\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\bigabs}[1]{\bigl\lvert#1\bigr\rvert}
+\newcommand{\biggabs}[1]{\biggl\lvert#1\biggr\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\ointerv}[1]{\mathopen({#1}\mathclose)}
+%\newcommand{\ocinterv}[1]{\mathopen({#1}\mathclose]}
+\newcommand{\ocinterv}[1]{\left( #1 \right] }
+%\newcommand{\cointerv}[1]{\mathopen[{#1}\mathclose)}
+\newcommand{\cointerv}[1]{\left[ #1 \right)}
+\newcommand{\cinterv}[1]{ \left[ #1 \right] }
+%\newcommand{\cinterv}[1]{\mathopen[{#1}\mathclose]}
+\newcommand{\thalf}{\tfrac{1}{2}}
+\newcommand{\half}{\frac{1}{2}}
+\newcommand{\tint}{\textstyle\int}
+\newcommand{\rpm}{\sbox0{$1$}\sbox2{$\scriptstyle\pm$}
+	\raise\dimexpr(\ht0-\ht2)/2\relax\box2 }
+
+\DeclareMathOperator*{\evalop}{\Big/}
+\newcommand{\eval}[2]{\evalop_{\!\!\!\!\!\!#1}^{\,\,\,\,\,\,#2}}
+
+\newcommand{\Tas}{\mathrm{Tas}}
+\newcommand{\Exp}{\mathrm{Exp}}
+\newcommand{\Bin}{\mathrm{Bin}}
+%\newcommand{\Poi}{\mathrm{P}}
+%\newcommand{\Nor}{\mathsf{N}}
+
+% Stochastic independence symbol
+\makeatletter
+\def\indept{\mathchoice
+	{\setbox0\hbox{$\displaystyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\textstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\scriptstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}%
+	{\setbox0\hbox{$\scriptscriptstyle\m@th\perp$}\mathrel
+		{\hbox to1.25\wd0{\copy0\hss\box0}}}}
+\makeatother
+
+\DeclareMathOperator{\Var}{var}
+\DeclareMathOperator{\Cov}{cov}
+\DeclareMathOperator{\Cor}{cor}
+
+\newcommand{\assim}{\underset{\mathit{as}}{\sim}}
+
+\renewcommand{\vec}[1]{{\mathbf{#1}}}
+
+\newcounter{harjnro}
+
+\newenvironment{harjlist}
+{\begin{list}{\kor{\arabic{harjnro}.}}
+		{\usecounter{harjnro}
+			\setlength{\labelwidth}{0em}
+			\setlength{\labelsep}{0.4em}
+			\setlength{\leftmargin}{0pt}
+			\setlength{\parsep}{5pt}
+			\setlength{\itemindent}{0.4em}
+			\setlength{\topsep}{0.5\parskip}
+			\setlength{\itemsep}{0.75\parskip}
+		}
+	}
+	{\end{list}}
+
+\newenvironment{ratkaisu}{\kor{Ratkaisu:} \\}{}
+\newenvironment{arvostelu}{\textit{\kor{Arvosteluohje: }}}{}
+
+\newenvironment{kohdat}
+{\begin{list}{\alph{enumi})}
+		{\usecounter{enumi}
+			\setlength{\labelwidth}{0em}
+			\setlength{\labelsep}{0.5em}
+			\setlength{\leftmargin}{0em}
+			\setlength{\parsep}{3pt}
+			\setlength{\itemindent}{0.5em}
+			\setlength{\topsep}{0pt}
+			\setlength{\itemsep}{0pt}
+		}
+	}
+	{\end{list}}
+
+\newcommand{\kor}[1]{\textbf{#1}}
+
+\newcommand{\kaanna}{\vfill\hfill KÄÄNNÄ!\pagebreak}
+
+\newcommand{\stcomp}[1]{{#1}^\complement}
+
+\newcommand{\ps}{\mathcal{P}}
+
+\pagestyle{empty}
+
+\makeatletter
+\DeclareRobustCommand{\em}{%
+  \@nomath\em \if b\expandafter\@car\f@series\@nil
+  \normalfont \else \bfseries \fi}
+\makeatother
+
+
+\begin{document}
+	
+	\setlength{\abovedisplayskip}{8.0pt plus3.0pt minus4.0pt}
+	\setlength{\abovedisplayshortskip}{0.0pt plus3.0pt}
+	\setlength{\belowdisplayskip}{8.0pt plus3.0pt minus4.0pt}
+	\setlength{\belowdisplayshortskip}{7.0pt plus3.0pt minus3.0pt}
+	
+	\title{sievenna Design Document}
+	\author{Onni Aarne}
+	\maketitle
+	
+	\section{Structure}
+	
+	sievenna is a command-line application. Parsing of command line options is done by the Apache Commons CLI library. This happens in the Main class. The main method then calls either the encode or decode method of the HuffmanCoder class, which then processes the data appropriately, reading and writing the encoded file using the binary output and input classes.
+	
+	If the -l flag was on, a MinimalistTimer is used to log how long each part of the process takes.
+	
+	\section{File format}
+	
+	The encoded file contains an encoded trie describing the Huffman codes of each possible byte value, an integer indicating the number of bytes in the original file, and finally the Huffman coded file.
+	
+	\subsection{Trie encoding}
+	The encoded trie is a full binary trie, meaning all nodes have 0 or 2 children. This enables us to unambiguously define the tree by simply writing the values of all nodes in preorder. This is done by writing a 0 for each non-leaf node and a 1 followed by the key byte for each leaf node. Because there are always 256 leaves and 511 nodes in total, the trie is always written in 2559 bits which is just under 320 bytes.
+	
+	If the alphabet were to be expanded, the size of the trie would grow linearly with the alphabet.
+	
+	\section{Analysis}
+	\subsection{Encoding}
+	The encoding process involves a number of steps:
+	\vspace{-0.8em}
+	\begin{enumerate}
+		\item Read file\\
+		This is trivially done in $ O(n) $ time and $ O(n) $ space.
+		\item Build model\\
+		The model, which is a probability distribution over the symbols in the file, was built by simply counting the frequency of each byte value in the file, so it took $ O(n) $ time and $ O(a) $ space.
+		\item Build trie\\
+		The trie is built by initializing all leaf nodes as their own trees and then repeatedly joining the two tries with the lowest probability under a new root node until there is only one trie with probability 1.
+		\begin{lstlisting}
+		build-trie(int[] probabilities)
+			H = new minheap
+			for i = 0 to 255
+				heap-insert(H, new node(key = i, P = probabilities[i]))
+			
+			while (H.size > 1)
+				left-node = heap-del-min(H)
+				right-node = heap-del-min(H)
+				new-root = new node(
+					key = -1,
+					P = left-node.P + right-node.P,
+					left = left-node,
+					right = right-node)
+				heap-insert(new-root)
+			return heap-min(H) \\ return root of complete trie
+		\end{lstlisting}
+		The while-loop needs to be run once for each non-leaf node, and it includes the $ O(\log a) $ heap-insert, which gives it $ O(a \log a) $ time complexity relative to alphabet size and $ O(1) $ time complexity relative to input size. The for-loop has the same time complexities for similar reasons, and so does the function overall. The heap takes up $ O(a) $ memory, and so does the whole function.
+		
+		\item Form code table\\
+		The code table is formed by completely traversing the trie, which takes $ O(a) $ time.
+		
+		\item Encode file\\
+		Writing the trie takes $ O(a) $ time, and writing the byte count takes $ O(1) $ time.
+		When encoding the file body, the codes corresponding each byte can be found in constant time and writing each code takes $ O(\log a) $ time because the length of the codes grows logarithmically as the alphabet grows. The total time taken is therefore $ O(n \log a) $
+	\end{enumerate}
+	
+	The encoding process takes in total $ O((n \log a) + (a \log a)) = O((a+n)\log a) $ or simply $ O(n) $ when assuming constant alphabet size.
+	
+	\subsection{decoding}
+	
+	Decoding involves more or less reversing the encoding steps.
+	The trie is read and constructed in $ O(a) $ time, after which the file body can be decoded in $ O(n) $ time relative to the size of the compressed file, which grows linearly relative to original file size (See testing document). Decoding the file body takes linear time because for each bit read, the trie is traversed one step, and whenever a leaf is reached a byte is written.
+
+\end{document}
