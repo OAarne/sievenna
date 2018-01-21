@@ -164,7 +164,7 @@ public class HuffmanCoder {
     /**
      * Returns the root node of a full trie for allocating the Huffman codes based on array of byte frequencies.
      * @param count
-     * @return
+     * @return Trie root
      */
 
     public static HuffNode buildTrie(int[] count) {
@@ -190,7 +190,6 @@ public class HuffmanCoder {
      * @param node
      * @param prefix
      * @param codes
-     * @return huffmanTable
      */
 
     public static void buildHuffTable(HuffNode node, String prefix, String[] codes) {

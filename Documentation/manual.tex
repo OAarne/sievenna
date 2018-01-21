@@ -151,13 +151,16 @@ vmarginratio=1:1]{geometry}
 	\author{Onni Aarne}
 	\maketitle
 	
-	sievenna is a command-line application for compressing files. To use it, write
+	sievenna is a command-line application for compressing files. To compile and run the program from project root, run
 	\begin{lstlisting}
-	$ sievenna -c <input> <output>
+	$ ./sievenna.sh <flags> <input> <output>
 	\end{lstlisting}
-	where \texttt{<input>} is the path of the file you wish to compress, and \texttt{<output>} is the path of the compressed file.
+	where \texttt{<input>} is the path of the file you wish to compress, and \texttt{<output>} is the path of the compressed file. Sievenna can only compress files, not directories. If you wish to compress a directory, make a tarball or similar archive file of it first.
 	
-	When compressing, if the output path is omitted, it defaults to \texttt{<input>.sie}.
+	The commands \texttt{gradle distZip} or \texttt{gradle distTar} can be used to generate a .zip or .tar distribution of the program, which can then be installed.
+	After this, the program can be used like so: \texttt{\$ sievenna <arguments>}
+	
+	If the output path is omitted when compressing it defaults to \texttt{<input>.sie}.
 	
 	To decompress, replace the -c flag with -d.
 	

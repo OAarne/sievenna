@@ -16,7 +16,7 @@ public class HuffNode implements Comparable<HuffNode> {
     /**
      * Returns a new node with this node as the left child and the param as the right.
      * @param right
-     * @return
+     * @return New parent node
      */
 
     public HuffNode join(HuffNode right) {

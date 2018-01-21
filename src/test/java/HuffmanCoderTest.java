@@ -20,6 +20,8 @@ public class HuffmanCoderTest {
         System.out.println("Decompressed file in " + (System.nanoTime() - before)/1000000000.0 + " s");
         System.out.println("Round trip took " + (System.nanoTime() - start)/1000000000.0 + " s");
 
+        assertTrue((System.nanoTime() - start)/1000000000.0 < 10);
+
         FileInputStream expected = new FileInputStream(new File("src/test/resources/nightshot_iso_100.ppm"));
         FileInputStream actual = new FileInputStream(new File("src/test/resources/output.ppm"));
 

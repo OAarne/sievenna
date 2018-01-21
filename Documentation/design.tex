@@ -155,11 +155,11 @@ vmarginratio=1:1]{geometry}
 	
 	sievenna is a command-line application. Parsing of command line options is done by the Apache Commons CLI library. This happens in the Main class. The main method then calls either the encode or decode method of the HuffmanCoder class, which then processes the data appropriately, reading and writing the encoded file using the binary output and input classes.
 	
-	If the -l flag was on, a MinimalistTimer is used to log how long each part of the process takes.
+	If the -l flag is enabled, a MinimalistTimer is used to log how long each part of the process takes.
 	
 	\section{File format}
 	
-	The encoded file contains an encoded trie describing the Huffman codes of each possible byte value, an integer indicating the number of bytes in the original file, and finally the Huffman coded file.
+	The encoded file contains an encoded trie describing the Huffman codes of each possible byte value, an integer indicating the number of bytes in the original file, and finally the Huffman coded file \cite{sedgewick2011algorithms}.
 	
 	\subsection{Trie encoding}
 	The encoded trie is a full binary trie, meaning all nodes have 0 or 2 children. This enables us to unambiguously define the tree by simply writing the values of all nodes in preorder. This is done by writing a 0 for each non-leaf node and a 1 followed by the key byte for each leaf node. Because there are always 256 leaves and 511 nodes in total, the trie is always written in 2559 bits which is just under 320 bytes.
@@ -176,7 +176,7 @@ vmarginratio=1:1]{geometry}
 		\item Build model\\
 		The model, which is a probability distribution over the symbols in the file, was built by simply counting the frequency of each byte value in the file, so it took $ O(n) $ time and $ O(a) $ space.
 		\item Build trie\\
-		The trie is built by initializing all leaf nodes as their own trees and then repeatedly joining the two tries with the lowest probability under a new root node until there is only one trie with probability 1.
+		The trie is built by initializing all leaf nodes as their own trees and then repeatedly joining the two tries with the lowest probability under a new root node until there is only one trie with probability 1 \cite{mahoney2012data}.
 		\begin{lstlisting}
 		build-trie(int[] probabilities)
 			H = new minheap
@@ -206,9 +206,16 @@ vmarginratio=1:1]{geometry}
 	
 	The encoding process takes in total $ O((n \log a) + (a \log a)) = O((a+n)\log a) $ or simply $ O(n) $ when assuming constant alphabet size.
 	
-	\subsection{decoding}
+	\subsection{Decoding}
 	
 	Decoding involves more or less reversing the encoding steps.
 	The trie is read and constructed in $ O(a) $ time, after which the file body can be decoded in $ O(n) $ time relative to the size of the compressed file, which grows linearly relative to original file size (See testing document). Decoding the file body takes linear time because for each bit read, the trie is traversed one step, and whenever a leaf is reached a byte is written.
+	
+	\section{Future Work}
+	
+	As it is, sievenna only uses a rather naive model of the data and encodes that. Because it does not have a sophisticated model or utilize any sort of transform, it cannot, for example, exploit any repeating patterns in the code \cite{mahoney2012data}. A file containing every byte value equally frequently would not be compressed at all, even if the values followed some obvious pattern such as 0,0,0,0,0,0,1,1,1,1,1,1,2,2,2,2,2,2,3... However, over the course of this project I have learned a fair bit about such methods, even though I did not have time to implement them. I might return to this project to improve it if I have time in the future, even though I don't know that the world needs another command line compression tool.
+	
+	\bibliographystyle{plain}
+	\bibliography{bench.bib}
 
 \end{document}

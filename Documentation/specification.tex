@@ -139,7 +139,7 @@ vmarginratio=1:1]{geometry}
 	\section{Features}
 	
 	sievenna will support compressing and decompressing arbitrary files.
-	It will use Huffman coding \cite{mahoney2012data, sedgewick2011algorithms} to achieve this.
+	It will use Huffman coding \cite{mahoney2012data, sedgewick2011algorithms} to achieve this. A minimum heap will be implemented to enable quickly forming the Huffman trie.
 	sievenna will not solve climate change.
 	
 	\section{Use}
@@ -148,7 +148,7 @@ vmarginratio=1:1]{geometry}
 	
 	\section{Performance}
 	
-	sievenna will compress most files to 70\% or less of their original size.
+	sievenna will compress most files to 70\% or less of their original size using constant auxiliary space in linear time.
 	
 	\bibliographystyle{plain}
 	\bibliography{bench.bib}

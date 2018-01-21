@@ -24,7 +24,6 @@ public class BinaryFileInput {
 
     /**
      * Reads the next bit from the file
-     * @return
      * @throws IOException
      */
 
@@ -42,7 +41,6 @@ public class BinaryFileInput {
 
     /**
      * Reads an 8-bit unsigned integer
-     * @return
      * @throws IOException
      */
 
@@ -59,7 +57,6 @@ public class BinaryFileInput {
 
     /**
      * Reads a 32-bit positive signed integer.
-     * @return
      * @throws IOException
      */
 

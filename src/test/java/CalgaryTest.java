@@ -7,12 +7,11 @@ import java.io.FileInputStream;
 import java.io.IOException;
 public class CalgaryTest {
 
-    @Ignore
     @Test
     public void calgaryTest() throws IOException {
 
         long before = System.nanoTime();
-        HuffmanCoder.encode("out/test/resources/calgary.tar", "src/test/resources/calgary.sie");
+        HuffmanCoder.encode("src/test/resources/calgary.tar", "src/test/resources/calgary.sie");
         long after = System.nanoTime();
         System.out.println("Compressed 22.128 MB file in " + (after - before)/1000000000.0 + " s");
         long before2 = System.nanoTime();

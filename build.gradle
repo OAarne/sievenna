@@ -1,4 +1,4 @@
-version '1.0-SNAPSHOT'
+version '1.0'
 
 apply plugin: 'application'
 apply plugin: 'java'
@@ -28,7 +28,7 @@ jacocoTestReport {
     }
     afterEvaluate {
     	classDirectories = files(classDirectories.files.collect {
-    		fileTree(dir: it, exclude: 'src/main/java/Main.java')
+    		fileTree(dir: it, exclude: '*src/main/java/Main.java')
     	})
     }
 }
