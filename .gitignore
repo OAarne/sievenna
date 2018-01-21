@@ -12,3 +12,8 @@ out
 *.out
 *.synctex.gz
 projectNotes.text
+*tasks.xml
+.idea/libraries/*.xml
+*.iml
+*.iws
+sievenna.ipr
